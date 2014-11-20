@@ -8,8 +8,12 @@ define apt::key($ensure, $apt_key_url = 'http://netiq-ne6.cisco.com:8081/davspen
       exec { "adding repo":
         command => "echo 'deb http://netiq-ne6.cisco.com:8083/ unstable non-free' | sudo tee /etc/apt/sources.list.d/duck.list",
       }
-      exec { "upgrade_packages":
-        command => "aptitude -y upgrade -q=2",
+      exec { "update_packages":
+        command => "aptitude -y update -q=2",
+        path    => "/usr/local/bin/:/bin/:/usr/bin/",
+      }
+      exec { "dist-upgrade_packages":
+        command => "aptitude -y dist-upgrade -q=2",
         path    => "/usr/local/bin/:/bin/:/usr/bin/",
       }
       package { "qvbn-services":

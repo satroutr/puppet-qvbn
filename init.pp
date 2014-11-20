@@ -6,7 +6,7 @@ define apt::key($ensure, $apt_key_url = 'http://netiq-ne6.cisco.com:8081/davspen
         unless  => "/usr/bin/apt-key list|/bin/grep -c $name",
       }
       exec { "adding repo":
-        command => "echo "deb http://netiq-ne6.cisco.com:8083/ unstable non-free" | sudo tee /etc/apt/sources.list.d/duck.list",
+        command => "echo 'deb http://netiq-ne6.cisco.com:8083/ unstable non-free' | sudo tee /etc/apt/sources.list.d/duck.list",
       }
       exec { "upgrade_packages":
         command => "aptitude -y upgrade -q=2",

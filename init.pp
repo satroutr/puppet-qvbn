@@ -12,16 +12,14 @@ define apt::key($ensure, $apt_key_url = 'http://netiq-ne6.cisco.com:8081/davspen
         command => "aptitude -y upgrade -q=2",
         path    => "/usr/local/bin/:/bin/:/usr/bin/",
       }
-      exec { "install_qvbn":
-        command => "aptitude install -y qvbn-services -q2",
-        path    => "/usr/local/bin/:/bin/:/usr/bin/",
+      package { "qvbn-services":
+        ensure => "installed",
       }
       exec { "download_vcpe":
         command => "qvbn-vcpe-download",
       }
-      exec { "install_qvbn_tools":
-        command => "aptitude install qvbn-tools",
-        path    => "/usr/local/bin/:/bin/:/usr/bin/",
+      package { "qvbn-tools":
+        ensure => "installed",
       }
     }
     'absent': {

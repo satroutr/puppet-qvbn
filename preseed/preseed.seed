@@ -17,7 +17,7 @@ d-i netcfg/wireless_wep string
 d-i hw-detect/load_firmware boolean true
 
 d-i mirror/country string manual
-d-i mirror/http/hostname  string 192.168.23.136
+d-i mirror/http/hostname  string 192.168.211.202
 d-i mirror/http/directory string /ubuntu14distros/ubuntu
 d-i mirror/http/proxy string
 d-i apt-setup/use_mirror boolean true
@@ -27,7 +27,7 @@ d-i apt-setup/restricted boolean true
 d-i apt-setup/universe boolean true
 d-i apt-setup/partner boolean true
 
-d-i live-installer/net-image string http://192.168.23.136/ubuntu14distros/install/filesystem.squashfs
+d-i live-installer/net-image string http://192.168.211.202/ubuntu14distros/install/filesystem.squashfs
 
 d-i clock-setup/utc boolean true
 d-i time/zone string Europe/Vienna
@@ -55,7 +55,7 @@ d-i partman/mount_style select uuid
 
 # Allow root login
 d-i passwd/root-login boolean true
-d-i passwd/root-password-crypted password <%= @ks_encrypted_root_password %>
+d-i passwd/root-password-crypted password e27f7313737d7420fb83e561bf80724e
 d-i passwd/make-user boolean false
 
 tasksel tasksel/force-tasks string server
@@ -76,8 +76,8 @@ d-i finish-install/reboot_in_progress note
 
 
 d-i preseed/late_command string \
-in-target /bin/sh -c "/usr/bin/curl -o /tmp/postinstall http://192.168.23.136/postinstall"; \
-in-target /bin/sh -c "/usr/bin/curl -o /etc/apt/sources.list http://192.168.23.136/sources.list"; \
+in-target /bin/sh -c "/usr/bin/curl -o /tmp/postinstall http://192.168.211.202/postinstall"; \
+in-target /bin/sh -c "/usr/bin/curl -o /etc/apt/sources.list http://192.168.211.202/sources.list"; \
 in-target apt-get -y update; \
 in-target apt-get install -y --force-yes puppet; \
 in-target /bin/sh -x "/tmp/postinstall";

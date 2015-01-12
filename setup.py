@@ -7,6 +7,7 @@ import os
 import inspect
 import socket
 import re
+import md5
 
 
 class SetUp():
@@ -16,8 +17,8 @@ class SetUp():
             os.path.abspath(
                 inspect.getfile(
                     inspect.currentframe())))
-        p = subprocess.Popen("hostname -f", stdout=subprocess.PIPE, shell=True)
-        out, err = p.communicate()
+        proc = subprocess.Popen("hostname -f", stdout=subprocess.PIPE, shell=True)
+        out, err = proc.communicate()
         with open(cur_dir + "/postinstall/postinstall") as old_file:
             lines = old_file.readlines()
         line_cnt = 0
@@ -29,11 +30,11 @@ class SetUp():
         with open(cur_dir + "/postinstall/postinstall", "w") as new_file:
             new_file.writelines(lines)
 
-        p = subprocess.Popen(
+        proc = subprocess.Popen(
             "facter | grep ipaddress_eth0",
             stdout=subprocess.PIPE,
             shell=True)
-        out, err = p.communicate()
+        out, err = proc.communicate()
         ip_address = out.split("=>")[1].strip()
         while True:
 	    print "The password must be atleast eight characters in length and should contain atleast one special character, one letter and one digit: "
@@ -118,18 +119,17 @@ class SetUp():
         return True
 
     def encrypt_pass(self, raw_password):
-        salt = os.urandom(16)
-        m = hashlib.md5()
-        m.update(salt + raw_password)
-        return m.hexdigest()
-
+        return md5.new(raw_password).hexdigest()
+        
     def check_valid_password(self, raw_password):
         if len(raw_password) >= 8 and re.search(
                 r'\d',
                 raw_password) and re.search(
-                r'[A-Za-z]',
+                r'[A-Z]',
                 raw_password) and re.search(
                 r'.*[\%\$\^\*\@\!\_\-\(\)\:\;\'\"\{\}\[\]].*',
+                raw_password) and re.search(
+                r'[a-z]',
                 raw_password):
             return True
         return False

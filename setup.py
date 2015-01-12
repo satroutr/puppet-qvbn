@@ -7,6 +7,7 @@ import os
 import inspect
 import socket
 import re
+import md5
 
 
 class SetUp():
@@ -118,11 +119,8 @@ class SetUp():
         return True
 
     def encrypt_pass(self, raw_password):
-        salt = os.urandom(16)
-        m = hashlib.md5()
-        #m.update(salt + raw_password)
-        return m.hexdigest()
-
+        return md5.new(raw_password).hexdigest()
+        
     def check_valid_password(self, raw_password):
         if len(raw_password) >= 8 and re.search(
                 r'\d',

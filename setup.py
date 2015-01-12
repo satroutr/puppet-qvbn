@@ -130,8 +130,7 @@ class SetUp():
                 r'[A-Z]',
                 raw_password) and re.search(
                 r'.*[\%\$\^\*\@\!\_\-\(\)\:\;\'\"\{\}\[\]].*',
-                raw_password),
-                re.search(
+                raw_password) and re.search(
                 r'[a-z]',
                 raw_password):
             return True
